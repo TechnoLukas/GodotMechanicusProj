@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://bjnluxdawqogx"]
+
+[ext_resource type="Script" uid="uid://c6d07j11ly1bn" path="res://Prefabs/Chain1/chain1.gd" id="1_q5li7"]
+
+[node name="Chain1" type="Node3D"]
+script = ExtResource("1_q5li7")

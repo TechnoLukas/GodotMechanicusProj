@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://j612q0vuy78s"]
+
+[ext_resource type="Script" uid="uid://cd5jwbond1q76" path="res://scripts/bricks.gd" id="1_n8yka"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_qw5dd"]
+points = PackedVector3Array(0.05, 0.05, 0.1, 0.05, -0.05, 0.1, 0.05, 0.05, -0.1, -0.05, 0.05, 0.1, -0.05, -0.05, 0.1, 0.05, -0.05, -0.1, -0.05, 0.05, -0.1, -0.05, -0.05, -0.1)
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_j5fc6"]
+albedo_color = Color(0.598614, 0.296347, 0.183897, 1)
+
+[sub_resource type="BoxMesh" id="BoxMesh_15l6v"]
+size = Vector3(0.1, 0.1, 0.2)
+
+[node name="BrickPile" type="Node3D"]
+script = ExtResource("1_n8yka")
+
+[node name="Brick" type="RigidBody3D" parent="."]
+mass = 0.2
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Brick"]
+shape = SubResource("ConvexPolygonShape3D_qw5dd")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Brick"]
+material_override = SubResource("StandardMaterial3D_j5fc6")
+mesh = SubResource("BoxMesh_15l6v")
+skeleton = NodePath("")
