@@ -1,14 +1,20 @@
-[gd_scene load_steps=11 format=3 uid="uid://dur30ro65vntf"]
+[gd_scene load_steps=13 format=3 uid="uid://dur30ro65vntf"]
 
 [ext_resource type="Script" uid="uid://s01mj2vi4yj8" path="res://Prefabs/Robot2/robot2.gd" id="1_svyyx"]
+[ext_resource type="Script" uid="uid://dyxuh253xw2l6" path="res://Prefabs/Robot2/FPV_camera.gd" id="2_bfb71"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_svyyx"]
+albedo_color = Color(0.258874, 0.447733, 0.450433, 1)
 
 [sub_resource type="BoxMesh" id="BoxMesh_br0rw"]
+material = SubResource("StandardMaterial3D_svyyx")
 size = Vector3(0.5, 0.2, 1)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_svyyx"]
 points = PackedVector3Array(0.25, 0.1, 0.5, 0.25, -0.1, 0.5, 0.25, 0.1, -0.5, -0.25, 0.1, 0.5, -0.25, -0.1, 0.5, 0.25, -0.1, -0.5, -0.25, 0.1, -0.5, -0.25, -0.1, -0.5)
 
 [sub_resource type="BoxMesh" id="BoxMesh_svyyx"]
+material = SubResource("StandardMaterial3D_svyyx")
 size = Vector3(0.2, 0.1, 0.1)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_bfb71"]
@@ -34,6 +40,11 @@ points = PackedVector3Array(0, -0.05, -0.2, -0.1, -0.05, -0.173218, 0, 0.05, -0.
 [node name="Robot" type="Node3D"]
 physics_interpolation_mode = 1
 script = ExtResource("1_svyyx")
+
+[node name="Camera3D" type="Camera3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.962446, 0.271474, 0, -0.271474, 0.962446, 0, 1.31828, 1.83989)
+fov = 60.0
+script = ExtResource("2_bfb71")
 
 [node name="Body" type="RigidBody3D" parent="."]
 mass = 0.1

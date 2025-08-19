@@ -27,6 +27,11 @@ var viewport_size
 var pivot_obj
 var pointer_obj
 
+@export var start_camera_pivot : Vector3 ## The position that camera will look at (its pivot point)
+@export var start_camera_pivot_rotation : Vector3 ## The rotation that camera will be rotated around pivot (degreees)
+@export var start_camera_distance : float ## The zoom/distance camera will be from pivot
+
+@export var use_warning : bool = true ## If true, it will warn you if you accedentally drag on invisible object.
 
 func _ready():
 	viewport_size = get_viewport().size
@@ -39,10 +44,10 @@ func _ready():
 	current_3d_mouse_position = null
 	
 	camera_mode = false
-	camera_pivot = Vector3(0.0,0.0,0.0)
-	camera_pivot_rotation = Vector3(-45.0,45.0,0.0)
+	camera_pivot = start_camera_pivot
+	camera_pivot_rotation = start_camera_pivot_rotation
 	
-	camera_distance = 5.0
+	camera_distance = start_camera_distance
 	camera_distance_min = 0.5
 	camera_distance_max = 35.0
 	camera_zoom_speed = 0.1
@@ -151,6 +156,7 @@ func _physics_process(_delta):
 			ray = calculate_3d_ray(left_mouse_position, far)
 			if ray == {}: return
 			first_3d_position=[ray.collider, ray.position, (ray.position-ray.collider.global_position) * ray.collider.global_transform.basis]
+			#print(first_3d_position)
 		else:
 			ray = calculate_3d_ray(left_mouse_position, self.position.distance_to(first_3d_position[1]))
 		
@@ -163,6 +169,10 @@ func _physics_process(_delta):
 			var damping = 1 * sqrt(spring_strength)  # critical damping
 			
 			first_3d_position[0].apply_force(diff_vec * spring_strength - velocity * damping, first_3d_position[0].global_transform.basis*first_3d_position[2])
+		
+		if first_3d_position[0].is_visible_in_tree() == false and use_warning:
+			#print("hi")
+			push_warning("The coursor is on invisible object: ", first_3d_position[0]) # I accedentaly forgot that i had invis object and spent 30min confused what my code did not work :0
 			
 func _process(_delta):
 	if left_mouse_position != null and camera_mode:

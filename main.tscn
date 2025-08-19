@@ -1,9 +1,7 @@
-[gd_scene load_steps=16 format=3 uid="uid://b4tbdy4dmly18"]
+[gd_scene load_steps=14 format=3 uid="uid://b4tbdy4dmly18"]
 
-[ext_resource type="Script" uid="uid://bshm1h4iqx2v7" path="res://scripts/sweet_camera.gd" id="1_1bvp3"]
 [ext_resource type="PackedScene" uid="uid://j612q0vuy78s" path="res://scenes/BrickPile.tscn" id="1_ig7tw"]
 [ext_resource type="PackedScene" uid="uid://dur30ro65vntf" path="res://Prefabs/Robot2/robot2.tscn" id="2_0xm2m"]
-[ext_resource type="Script" uid="uid://c3538fswce6d8" path="res://scripts/fps.gd" id="2_lquwl"]
 [ext_resource type="PackedScene" uid="uid://bjnluxdawqogx" path="res://Prefabs/Chain1/chain1.tscn" id="3_h2yge"]
 [ext_resource type="PackedScene" uid="uid://bsdx3whridjfb" path="res://Prefabs/SpinWheel/spinwheel.tscn" id="6_7mycd"]
 
@@ -36,17 +34,6 @@ size = Vector3(0.1, 0.1, 1)
 points = PackedVector3Array(0.05, 0.05, 0.5, 0.05, -0.05, 0.5, 0.05, 0.05, -0.5, -0.05, 0.05, 0.5, -0.05, -0.05, 0.5, 0.05, -0.05, -0.5, -0.05, 0.05, -0.5, -0.05, -0.05, -0.5)
 
 [node name="Node3D" type="Node3D"]
-
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(0.707107, 0, 0.707107, 0, 1, 0, -0.707107, 0, 0.707107, 3.12518, 1.11051, 1.81898)
-fov = 60.0
-script = ExtResource("1_1bvp3")
-
-[node name="Label" type="Label" parent="Camera3D"]
-offset_right = 40.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0.236334, 0.236334, 0.236334, 1)
-script = ExtResource("2_lquwl")
 
 [node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 environment = SubResource("Environment_7dm0k")
