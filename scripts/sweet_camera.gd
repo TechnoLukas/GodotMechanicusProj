@@ -27,10 +27,20 @@ var viewport_size
 var pivot_obj
 var pointer_obj
 
-@export var start_camera_pivot : Vector3 ## The position that camera will look at (its pivot point)
-@export var start_camera_pivot_rotation : Vector3 ## The rotation that camera will be rotated around pivot (degreees)
-@export var start_camera_distance : float ## The zoom/distance camera will be from pivot
+@export_category("Default Settings")
 
+@export var start_camera_pivot : Vector3 = Vector3(0.0,0.0,0.0) ## The position that camera will look at (its pivot point)
+@export var start_camera_pivot_rotation : Vector3 = Vector3(-45,45,0.0) ## The rotation that camera will be rotated around pivot (degreees)
+@export var start_camera_distance : float = 10 ## The zoom/distance camera will be from pivot
+
+@export_category("Features")
+@export var do_draging : bool = true
+@export var do_rotating : bool = true
+@export var do_zooming : bool = true
+@export var do_grabbing : bool = true
+
+@export_category("Miscellaneous")
+@export var show_elements : bool = true ## If true, will show the pivot points and red cursor
 @export var use_warning : bool = true ## If true, it will warn you if you accedentally drag on invisible object.
 
 func _ready():
@@ -69,6 +79,9 @@ func _ready():
 	pointer_obj.material = pointer_obj_material
 	pointer_obj.position = camera_pivot
 	
+	
+	pivot_obj.visible = show_elements
+	
 	get_tree().root.add_child.call_deferred(pivot_obj)
 	get_tree().root.add_child.call_deferred(pointer_obj)
 	
@@ -76,25 +89,25 @@ func _ready():
 
 func _input(event):
 	if event is InputEventMouseButton and camera_mode:
-		if event.button_index == MOUSE_BUTTON_LEFT:
+		if event.button_index == MOUSE_BUTTON_LEFT and do_grabbing:
 			if event.pressed:
 				left_mouse_position = event.position
 			else:
 				left_mouse_position = null
 				first_3d_position = []
 				
-		if event.button_index == MOUSE_BUTTON_RIGHT:
+		if event.button_index == MOUSE_BUTTON_RIGHT and do_rotating:
 			right_mouse_dragging = event.pressed
-		if event.button_index == MOUSE_BUTTON_MIDDLE:
+		if event.button_index == MOUSE_BUTTON_MIDDLE and do_draging:
 			middle_mouse_dragging = event.pressed
 				
 				
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP and do_zooming:
 			if camera_distance > camera_distance_min:
 				camera_distance -= camera_zoom_speed * camera_distance/2.5
 				camera_drag_speed = camera_distance / camera_drag_speed_k
 				set_cam_position(camera_pivot, camera_pivot_rotation, camera_distance)
-		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN and do_zooming:
 			if camera_distance < camera_distance_max:
 				camera_distance += camera_zoom_speed * camera_distance/2.5
 				camera_drag_speed = camera_distance / camera_drag_speed_k
@@ -127,7 +140,7 @@ func _input(event):
 
 	if event is InputEventKey and event.pressed and event.keycode == KEY_TAB:
 		camera_mode =! camera_mode
-		pivot_obj.visible = camera_mode
+		pivot_obj.visible = camera_mode and show_elements
 		
 	
 
@@ -176,7 +189,7 @@ func _physics_process(_delta):
 			
 func _process(_delta):
 	if left_mouse_position != null and camera_mode:
-		pointer_obj.visible = true
+		pointer_obj.visible = show_elements
 		if first_3d_position != []:
 			pointer_obj.position = current_3d_mouse_position
 	else:
