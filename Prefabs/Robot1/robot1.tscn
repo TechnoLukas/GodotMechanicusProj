@@ -1,9 +1,13 @@
-[gd_scene load_steps=14 format=3 uid="uid://d124a6v6bc4gh"]
+[gd_scene load_steps=15 format=3 uid="uid://d124a6v6bc4gh"]
 
 [ext_resource type="Script" uid="uid://d37pvxwu20738" path="res://Prefabs/Robot1/robot1.gd" id="1_br0rw"]
 [ext_resource type="Shader" uid="uid://bapa7akoocm8q" path="res://Prefabs/Robot1/ball.tres" id="2_1rsor"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_v5f61"]
+albedo_color = Color(0.344245, 0.40438, 0.337996, 1)
+
 [sub_resource type="BoxMesh" id="BoxMesh_br0rw"]
+material = SubResource("StandardMaterial3D_v5f61")
 size = Vector3(0.5, 0.2, 0.7)
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_ykvnc"]

@@ -44,6 +44,14 @@ var pointer_obj
 @export var show_elements : bool = true ## If true, will show the pivot points and red cursor
 @export var use_warning : bool = true ## If true, it will warn you if you accidentally drag on invisible object.
 
+@export_category("Controlls")
+@export var camera_drag_button: MouseButton = MOUSE_BUTTON_MIDDLE
+@export var camera_rotate_button: MouseButton = MOUSE_BUTTON_RIGHT
+@export var camera_zoom_in_button: MouseButton = MOUSE_BUTTON_WHEEL_UP
+@export var camera_zoom_out_button: MouseButton = MOUSE_BUTTON_WHEEL_DOWN
+@export var camera_grab_button: MouseButton = MOUSE_BUTTON_LEFT
+@export var camera_switch_button: Key = KEY_TAB
+
 func _ready():
 	viewport_size = get_viewport().size
 	
@@ -102,25 +110,25 @@ func _input(event):
 			
 	
 	if event is InputEventMouseButton and camera_active:
-		if event.button_index == MOUSE_BUTTON_LEFT and do_grabbing:
+		if event.button_index == camera_grab_button and do_grabbing:
 			if event.pressed:
 				left_mouse_position = event.position
 			else:
 				left_mouse_position = null
 				first_3d_position = []
 				
-		if event.button_index == MOUSE_BUTTON_RIGHT and do_rotating:
+		if event.button_index == camera_rotate_button and do_rotating:
 			right_mouse_dragging = event.pressed
-		if event.button_index == MOUSE_BUTTON_MIDDLE and do_draging:
+		if event.button_index == camera_drag_button and do_draging:
 			middle_mouse_dragging = event.pressed
 				
 				
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP and do_zooming:
+		if event.button_index == camera_zoom_in_button and do_zooming:
 			if camera_distance > camera_distance_min:
 				camera_distance -= camera_zoom_speed * camera_distance/2.5
 				camera_drag_speed = camera_distance / camera_drag_speed_k
 				set_cam_position(camera_pivot, camera_pivot_rotation, camera_distance)
-		if event.button_index == MOUSE_BUTTON_WHEEL_DOWN and do_zooming:
+		if event.button_index == camera_zoom_out_button and do_zooming:
 			if camera_distance < camera_distance_max:
 				camera_distance += camera_zoom_speed * camera_distance/2.5
 				camera_drag_speed = camera_distance / camera_drag_speed_k

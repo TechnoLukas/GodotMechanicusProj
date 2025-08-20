@@ -286,3 +286,4 @@ shape = SubResource("ConvexPolygonShape3D_hdk1w")
 
 [node name="Camera3D" type="Camera3D" parent="."]
 script = ExtResource("1_lrfej")
+camera_mode = 1
