@@ -10,7 +10,7 @@ var middle_mouse_dragging
 var first_3d_position
 var current_3d_mouse_position
 
-var camera_mode
+var camera_active
 var camera_pivot
 var camera_pivot_rotation
 
@@ -29,6 +29,7 @@ var pointer_obj
 
 @export_category("Default Settings")
 
+@export_enum("tab_switch","always_active","always_deactive") var camera_mode = 0
 @export var start_camera_pivot : Vector3 = Vector3(0.0,0.0,0.0) ## The position that camera will look at (its pivot point)
 @export var start_camera_pivot_rotation : Vector3 = Vector3(-45,45,0.0) ## The rotation that camera will be rotated around pivot (degreees)
 @export var start_camera_distance : float = 10 ## The zoom/distance camera will be from pivot
@@ -53,7 +54,7 @@ func _ready():
 	first_3d_position = []
 	current_3d_mouse_position = null
 	
-	camera_mode = false
+	camera_active = camera_mode == 1
 	camera_pivot = start_camera_pivot
 	camera_pivot_rotation = start_camera_pivot_rotation
 	
@@ -88,7 +89,19 @@ func _ready():
 	set_cam_position(camera_pivot, camera_pivot_rotation, camera_distance)
 
 func _input(event):
-	if event is InputEventMouseButton and camera_mode:
+	if event is InputEventKey and event.pressed and event.keycode == KEY_TAB:
+		if camera_mode == 0: # tab_switch
+			camera_active =! camera_active
+		elif camera_mode == 1: # always_active
+			camera_active = true
+		elif camera_mode == 2: # always_deactive
+			camera_active = false
+		
+		
+		pivot_obj.visible = camera_active and show_elements
+			
+	
+	if event is InputEventMouseButton and camera_active:
 		if event.button_index == MOUSE_BUTTON_LEFT and do_grabbing:
 			if event.pressed:
 				left_mouse_position = event.position
@@ -138,9 +151,7 @@ func _input(event):
 			
 			
 
-	if event is InputEventKey and event.pressed and event.keycode == KEY_TAB:
-		camera_mode =! camera_mode
-		pivot_obj.visible = camera_mode and show_elements
+
 		
 	
 
@@ -163,7 +174,7 @@ func calculate_3d_ray(mouse_position, dist):
 	
 
 func _physics_process(_delta):
-	if left_mouse_position != null and camera_mode:
+	if left_mouse_position != null and camera_active:
 		var ray
 		if first_3d_position == []:
 			ray = calculate_3d_ray(left_mouse_position, far)
@@ -188,7 +199,7 @@ func _physics_process(_delta):
 			push_warning("The coursor is on invisible object: ", first_3d_position[0]) # I accedentaly forgot that i had invis object and spent 30min confused what my code did not work :0
 			
 func _process(_delta):
-	if left_mouse_position != null and camera_mode:
+	if left_mouse_position != null and camera_active:
 		pointer_obj.visible = show_elements
 		if first_3d_position != []:
 			pointer_obj.position = current_3d_mouse_position
