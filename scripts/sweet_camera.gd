@@ -31,7 +31,7 @@ var pointer_obj
 
 @export_enum("tab_switch","always_active","always_deactive") var camera_mode = 0
 @export var start_camera_pivot : Vector3 = Vector3(0.0,0.0,0.0) ## The position that camera will look at (its pivot point)
-@export var start_camera_pivot_rotation : Vector3 = Vector3(-45,45,0.0) ## The rotation that camera will be rotated around pivot (degreees)
+@export var start_camera_pivot_rotation : Vector3 = Vector3(-45,45,0.0) ## The rotation that camera will be rotated around pivot (degrees)
 @export var start_camera_distance : float = 10 ## The zoom/distance camera will be from pivot
 
 @export_category("Features")
@@ -42,7 +42,7 @@ var pointer_obj
 
 @export_category("Miscellaneous")
 @export var show_elements : bool = true ## If true, will show the pivot points and red cursor
-@export var use_warning : bool = true ## If true, it will warn you if you accedentally drag on invisible object.
+@export var use_warning : bool = true ## If true, it will warn you if you accidentally drag on invisible object.
 
 func _ready():
 	viewport_size = get_viewport().size
